@@ -13,10 +13,11 @@ if [ "$1" = "city" ]; then
         done <<< "$employees"
     fi
 elif [ "$1" = "bonus" ]; then
-    employee=$(grep -i $2 employee.csv)
+    employee=$(grep "$2" employee.csv)
     salary=$(echo $employee | cut -d ',' -f 5)
     name=$(echo $employee | cut -d ',' -f 3)
-    bonus=$(echo "$salary * 0.05 / 1" | bc)
+    bonus=$(echo "$salary * 0.05" | bc)
+    bonus=$(printf "%.0f" $bonus)
     echo ""$name" will get \$$bonus bonus"
 else
     echo "command not found"
