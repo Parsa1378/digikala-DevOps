@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  redis:
+    image: registry.gitlab.com/qio/standard/redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    mem_limit: 30m
+    mem_reservation: 30m
+
