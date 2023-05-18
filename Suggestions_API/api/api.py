@@ -1,6 +1,5 @@
-from fastapi import FastAPI,status,Response
+from fastapi import FastAPI,status,Response,Header
 from pydantic import BaseModel
-import hashlib
 
 app = FastAPI()
 
@@ -9,10 +8,14 @@ class User(BaseModel):
     password:str
 
 users:dict
+class Suggestion(BaseModel):
+    text:str
+    user:str
+
+suggestions:list[Suggestion]
 
 def generate_token(username):
-    secret_key = 'secret'
-    token = hashlib.sha256((username + secret_key).encode()).hexdigest()
+    token = "hjndwa"+username+"djsnv"
     return token
 
 @app.get("/")
@@ -65,3 +68,28 @@ def login(user:User,response:Response):
         "token":token
     } , {"Authorization": f"{token}"}
 
+@app.post("/suggestions")
+def post_suggestion(text:str,response:Response,token:str = Header(...)):
+    username = token[6:-5]
+    # user:User
+    # if username in users.keys():
+    #     user.username = username
+    #     user.password =
+    if not text:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "ok":False,
+            "error":"no text provided"
+        }
+    suggestion = Suggestion(text=text,user=username)
+    suggestions.append(suggestion)
+    response.status_code = status.HTTP_201_CREATED
+    return {
+        "ok":True,
+    }
+
+@app.get("/suggestions")
+def get_suggestions():
+    return suggestions
+
+        
