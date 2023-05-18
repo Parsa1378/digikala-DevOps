@@ -26,7 +26,6 @@ block_requests() {
     sudo iptables -D INPUT -s "$ip_range" -j ACCEPT 2>/dev/null
     sudo iptables -A INPUT -s "$ip_range" -j DROP
   done
-
 }
 
 # Function to unblock incoming requests
@@ -37,7 +36,6 @@ unblock_requests() {
     sudo iptables -D INPUT -s "$ip_range" -j DROP 2>/dev/null
     sudo iptables -A INPUT -s "$ip_range" -j ACCEPT
   done
-
 }
 
 # Check the command and perform the respective action
